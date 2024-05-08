@@ -1,0 +1,71 @@
+#form-top-container {
+    height: 100vh;
+    background-color: rgb(31, 35, 36);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  #form-container {
+    max-width: 600px;
+    max-height: 600px;
+    background-color: white;
+    padding: 25px;
+    border-radius: 5px;
+  }
+
+  #form-container .header-form {
+    font-size: 30px;
+    color: gray;
+    text-align: center;
+
+  }
+
+  #form-container .form {
+    margin-top: 5px;
+  }
+
+  .input-box {
+    margin-top: 5px;
+  }
+
+  .form :where(.input-box input) {
+    width: 100%;
+    margin-top: 15px;
+    height: 40px;
+    width: 100%;
+    
+    font-size: 16px;
+    font-weight: 500;
+
+  }
+
+  .input-box label {
+    color: gray;
+    margin-top: 5px;
+  }
+
+  .form .column {
+    display: flex;
+    column-gap: 15px;
+  }
+
+  input[type="submit"] {
+    margin-top: 10px;
+    height: 50px;
+    width: 100%;
+    background-color: rgb(61, 67, 69);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background-color: rgb(156, 180, 91);
+  }
+  li:hover{
+    cursor: pointer;
+  }
