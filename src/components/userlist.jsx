@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Userlist = () => {
     const [userData,setUserData] = useState('')
     useEffect(() =>{
         allUserList()
     })
+    const Navigate = useNavigate()
+
     const allUserList = () =>{
         axios.get('http://localhost:8080/users/userlist').then((response) =>{
             setUserData(response.data.message);
@@ -29,7 +32,7 @@ const Userlist = () => {
                 <td><input type="button" value="delete" onClick={() =>{
                     deleteHandler(users._id)
                 }} /></td>
-                <td><input type="button" value="update" /></td>
+                <td><input type="button" value="update" onClick={() =>{Navigate('/edit/'+ users._id)}}/></td>
             </tr>
         ))}
       </table>

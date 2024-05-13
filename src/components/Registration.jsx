@@ -2,7 +2,7 @@ import { useEffect, useState} from 'react';
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import '../css/registrationForm.css';
-import { useLocation} from 'react-router-dom';
+import { useParams,useLocation} from 'react-router-dom';
 const Registration = ()=>{
     const [formname,getFormname] = useState('Registration Form');
     const [buttonvalue,getButtonvalue]= useState('Registration')
@@ -15,6 +15,8 @@ const Registration = ()=>{
     const[password, getPassword] = useState('')
     const location = useLocation();
     const navigate = useNavigate()
+    const params = useParams();
+    console.log(params)
         const [path,getPath] = useState('/login')
     // console.log(location.pathname);
     useEffect( ()=>{
@@ -25,7 +27,17 @@ const Registration = ()=>{
             getText('New user?')
             getPath('/registration')
         }
+        if(params.id){
+            getFormname('Update form')
+            getButtonvalue('Update')
+
+            axios.get('http://localhost:8080/users/singleuserlist/'+ params.id).then((response) =>{
+                console.log(response.data.message)
+            })
+        }
+
     },[])
+    
     
     const firstNameHandler = (e) =>{
         getFirstName(e.target.value)
@@ -64,7 +76,7 @@ const Registration = ()=>{
              <div id="form-container">
                 <div class="header-form">{formname}</div>
                 <form class="form">
-        { buttonvalue === 'Registration' && 
+        { buttonvalue != 'Login' && 
                 <>
                     <div class="input-box">
                         <label for="firstname">First name </label>
@@ -89,8 +101,12 @@ const Registration = ()=>{
                     <input type="password" placeholder="Password"vlaue={password} onChange={passwordHandler} />
                 </div>
                 <input type="submit" value={buttonvalue} onClick={()=>{submithandler(); navigate("/login")}}/>
+                { buttonvalue != "Update" &&
+                <>
                 <div>{text}<a onClick={()=>{navigate(path)}}>{button}</a>
                  </div>
+                </>
+                }   
                 </form>
             </div>
         </div>
