@@ -8,11 +8,11 @@ const Registration = ()=>{
     const [buttonvalue,getButtonvalue]= useState('Registration')
     const [button, getButton] = useState("Login")
     const [text, getText] = useState("Alrady an user?")
-    const[firstname, getFirstName] = useState('')
-    const[lastName, getLastName] = useState('')
-    const[phoneno, getPhoneno] = useState('')
-    const[email, getEmail] = useState('')
-    const[password, getPassword] = useState('')
+    const [firstname, getFirstName] = useState('')
+    const [lastName, getLastName] = useState('')
+    const [phoneno, getPhoneno] = useState('')
+    const [email, getEmail] = useState('')
+    const [password, getPassword] = useState('')
     const location = useLocation();
     const navigate = useNavigate()
     const params = useParams();
@@ -30,9 +30,12 @@ const Registration = ()=>{
         if(params.id){
             getFormname('Update form')
             getButtonvalue('Update')
-
             axios.get('http://localhost:8080/users/singleuserlist/'+ params.id).then((response) =>{
                 console.log(response.data.message)
+                getFirstName(response.data.message.firstname)
+                getLastName(response.data.message.lastName)
+                getEmail(response.data.message.email)
+                getPassword(response.data.message.password)
             })
         }
 
@@ -60,6 +63,18 @@ const Registration = ()=>{
 
     const submithandler = (e) =>{
         // e.preventDefault()
+        if(params.id){
+            let registrationData = {
+                firstname:firstname,
+                lastName:lastName,
+                phoneno:phoneno,
+                email:email,
+                password:password,
+               }
+               axios.put('http://localhost:8080/users/updateuser/' +params.id,registrationData).then((res) =>{console.log(res)})
+               navigate("/userlist")
+            }
+        else{
        let registrationData = {
         firstname:firstname,
         lastName:lastName,
@@ -68,6 +83,8 @@ const Registration = ()=>{
         password:password,
        }
        axios.post('http://localhost:8080/users/registration',registrationData).then((res) =>{console.log(res)})
+       navigate("/login")
+    }
     }
 
     return(
@@ -80,27 +97,27 @@ const Registration = ()=>{
                 <>
                     <div class="input-box">
                         <label for="firstname">First name </label>
-                        <input type="text" placeholder="First name" vlaue={firstname} onChange={firstNameHandler}  />
+                        <input type="text"  value={firstname} onChange={firstNameHandler}  />
                     </div>
                     <div class="input-box">
                         <label for="lastname">Last name </label>
-                        <input type="text" placeholder="Last name" vlaue={lastName} onChange={lastNameHandler} />
+                        <input type="text" placeholder="Last name" value={lastName} onChange={lastNameHandler} />
                     </div>
                     <div class="input-box">
                         <label for="phoneno">Phone no </label>
-                        <input type="text" placeholder="Phone No" vlaue={phoneno} onChange={phonenoHandler} />
+                        <input type="text" placeholder="Phone No" value={phoneno} onChange={phonenoHandler} />
                     </div>
                 </>
             }
                 <div class="input-box">
                     <label for="email">Email </label>
-                    <input type="text" placeholder="Email" vlaue={email} onChange={emailHandler} />
+                    <input type="text" placeholder="Email" value={email} onChange={emailHandler} />
                 </div>
                 <div class="input-box">
                     <label for="password">Password </label>
-                    <input type="password" placeholder="Password"vlaue={password} onChange={passwordHandler} />
+                    <input type="password" placeholder="Password"value={password} onChange={passwordHandler} />
                 </div>
-                <input type="submit" value={buttonvalue} onClick={()=>{submithandler(); navigate("/login")}}/>
+                <input type="submit" value={buttonvalue} onClick={()=>{submithandler(); }}/>
                 { buttonvalue != "Update" &&
                 <>
                 <div>{text}<a onClick={()=>{navigate(path)}}>{button}</a>
